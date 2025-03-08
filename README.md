@@ -21,8 +21,32 @@ The application will have two pages:
 ```
 addressbook/
 │── frontend/       # React frontend (Vite)
+│ │── public
+│ │── src
+│ │ │── AddContact.jsx
+│ │ │── App.css
+│ │ │── ContactList.jsx
+│ │ │── index.css
+│ │ │── main.jsx
+│ │── eslint.config.js
+│ │── index.html
+│ │── package-lock.json
+│ │── package.json
+│ │── postcss.config.js
+│ │── README.md
+│ │── tailwind.config.js
+│ │── vite.config.js
 │── backend/        # Express.js backend with PostgreSQL
+│ │── .env
+│ │── docker-compose.yml
+│ │── package-lock.json
+│ │── package.json
+│ │── server.js
 │── tests/          # Vitest test scripts
+│ │── package-lock.json
+│ │── package.json
+│ │── test.js
+│ │── README.md
 │── docker-compose.yml  # Docker configuration for PostgreSQL
 │── .env            # Environment variables
 │── package.json    # Project dependencies
