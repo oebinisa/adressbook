@@ -79,4 +79,24 @@ cd frontend
 npm run dev
 ```
 
-6. Open the app on a browser
+6. Run Test with Vitest (optional):
+
+```bash
+cd tests
+
+# Run all tests:
+npm test
+
+# Run specific test groups:
+npm run test:frontend
+npm run test:backend
+npm run test:integration
+
+# Run tests with UI and watch mode:
+npm run test:ui
+
+# Generate test coverage
+npm run test:coverage
+```
+
+7. Open the app on a browser
