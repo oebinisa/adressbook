@@ -23,11 +23,10 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                script {
-                    sh 'cd frontend && npm install'
-                    sh 'cd backend && npm install'
-                    sh 'cd tests && npm install'
-                }
+                sh 'npm config set cache /var/jenkins_home/.npm --global'
+                sh 'cd frontend && npm ci --no-audit'
+                sh 'cd backend && npm ci --no-audit'
+                sh 'cd tests && npm ci --no-audit'
             }
         }
 
