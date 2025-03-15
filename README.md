@@ -43,13 +43,24 @@ addressbook/
 │ │── package.json
 │ │── server.js
 │── tests/          # Vitest test scripts
+│ │── backend
+│ │ │── api.test.js
+│ │── frontend
+│ │ │── AddContact.test.jsx
+│ │ │── ContactList.test.jsx
+│ │── integration
+│ │ │── app.test.js
 │ │── package-lock.json
 │ │── package.json
 │ │── test.js
 │ │── README.md
+│── infra/          # Terraform script
+│ │── main.tf
 │── docker-compose.yml  # Docker configuration for PostgreSQL
 │── .env            # Environment variables
 │── package.json    # Project dependencies
+│── Jenkinsfile
+│── deploy_blue_green.sh
 │── README.md       # Project documentation
 ```
 
