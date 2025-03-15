@@ -20,13 +20,18 @@ pipeline {
                 git branch: 'jenkinsbranch', url: 'https://github.com/oebinisa/adressbook.git'
             }
         }
-
+        
         stage('Install Dependencies') {
+            agent {
+                docker {
+                    image 'node:16'
+                    reuseNode true
+                }
+            }
             steps {
-                sh 'npm config set cache /var/jenkins_home/.npm --global'
-                sh 'cd frontend && npm ci --no-audit'
-                sh 'cd backend && npm ci --no-audit'
-                sh 'cd tests && npm ci --no-audit'
+                sh 'cd frontend && npm ci --no-fund --no-audit'
+                sh 'cd backend && npm ci --no-fund --no-audit'
+                sh 'cd tests && npm ci --no-fund --no-audit'
             }
         }
 
