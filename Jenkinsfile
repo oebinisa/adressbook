@@ -83,28 +83,32 @@ pipeline {
     post {
         success {
             script {
-                sh """
-                curl -s --user 'api:${MAILGUN_API_KEY}' \
-                    https://api.mailgun.net/v3/${MAILGUN_DOMAIN}/messages \
-                    -F from='DevForge Notifications <dev@devforge.cc>' \
-                    -F to='${MAILGUN_RECIPIENT}' \
-                    -F subject='Jenkins Build Notification' \
-                    -F text='Your Jenkins job has completed successfully.'
-                """
+                withCredentials([string(credentialsId: 'mailgun-api-key', variable: 'MG_API_KEY'), 
+                                string(credentialsId: 'mailgun-domain', variable: 'MG_DOMAIN')]) {
+                    sh '''
+                    curl -s --user "api:${MG_API_KEY}" \
+                        https://api.mailgun.net/v3/${MG_DOMAIN}/messages \
+                        -F from="DevForge Notifications <dev@devforge.cc>" \
+                        -F to="${MAILGUN_RECIPIENT}" \
+                        -F subject="Jenkins Build Notification" \
+                        -F text="Your Jenkins job has completed successfully."
+                    '''
+                }
             }
         }
         failure {
             script {
-                sh 'cd infra && terraform destroy -auto-approve || echo "Rollback failed"'
-                
-                sh """
-                curl -s --user 'api:${MAILGUN_API_KEY}' \
-                    https://api.mailgun.net/v3/${MAILGUN_DOMAIN}/messages \
-                    -F from='DevForge Notifications <dev@devforge.cc>' \
-                    -F to='${MAILGUN_RECIPIENT}' \
-                    -F subject='Jenkins Build Notification' \
-                    -F text='Your Jenkins job has failed. Please check the logs.'
-                """
+                withCredentials([string(credentialsId: 'mailgun-api-key', variable: 'MG_API_KEY'), 
+                                string(credentialsId: 'mailgun-domain', variable: 'MG_DOMAIN')]) {
+                    sh '''
+                    curl -s --user "api:${MG_API_KEY}" \
+                        https://api.mailgun.net/v3/${MG_DOMAIN}/messages \
+                        -F from="DevForge Notifications <dev@devforge.cc>" \
+                        -F to="${MAILGUN_RECIPIENT}" \
+                        -F subject="Jenkins Build Notification" \
+                        -F text="Your Jenkins job has failed. Please check the logs."
+                    '''
+                }
             }
         }
     }
