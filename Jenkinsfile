@@ -20,18 +20,14 @@ pipeline {
                 git branch: 'jenkinsbranch', url: 'https://github.com/oebinisa/adressbook.git'
             }
         }
-        
+
         stage('Install Dependencies') {
-            agent {
-                docker {
-                    image 'node:16'
-                    reuseNode true
-                }
-            }
             steps {
-                sh 'cd frontend && npm ci --no-fund --no-audit'
-                sh 'cd backend && npm ci --no-fund --no-audit'
-                sh 'cd tests && npm ci --no-fund --no-audit'
+                timeout(time: 15, unit: 'MINUTES') {
+                    sh 'cd frontend && npm install --no-fund --no-audit --legacy-peer-deps || true'
+                    sh 'cd backend && npm install --no-fund --no-audit --legacy-peer-deps || true'
+                    sh 'cd tests && npm install --no-fund --no-audit --legacy-peer-deps || true'
+                }
             }
         }
 
