@@ -42,13 +42,7 @@ pipeline {
         stage('Build Frontend (React + Vite)') {
             steps {
                 script {
-                    sh '''
-                        cd frontend
-                        docker run --rm \
-                        -v "$(pwd)":/app \
-                        -w /app \
-                        node:16 npm run build
-                    '''
+                    sh 'cd frontend && npx vite build'
                 }
             }
         }
