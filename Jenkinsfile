@@ -42,7 +42,12 @@ pipeline {
         stage('Build Frontend (React + Vite)') {
             steps {
                 script {
-                    sh 'cd frontend && npx vite build'
+                    sh '''
+                        cd frontend
+                        npm install vite --no-fund --no-audit
+                        npm list vite
+                        NODE_ENV=production npm run build || npm run build -- --debug
+                    '''
                 }
             }
         }
