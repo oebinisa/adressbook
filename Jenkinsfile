@@ -23,10 +23,39 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                timeout(time: 30, unit: 'MINUTES') {
-                    sh 'cd frontend && npm install --no-fund --no-audit --legacy-peer-deps || true'
-                    sh 'cd backend && npm install --no-fund --no-audit --legacy-peer-deps || true'
-                    sh 'cd tests && npm install --no-fund --no-audit --legacy-peer-deps || true'
+                script {
+                    // Create persistent volume for npm cache
+                    sh 'mkdir -p /var/jenkins_home/npm-cache'
+                    
+                    // Frontend dependencies with cache mount
+                    sh '''
+                        cd frontend
+                        docker run --rm \
+                        -v "$(pwd)":/app \
+                        -v /var/jenkins_home/npm-cache:/root/.npm \
+                        -w /app \
+                        node:16 npm install --no-fund --legacy-peer-deps
+                    '''
+                    
+                    // Backend dependencies with cache mount
+                    sh '''
+                        cd backend
+                        docker run --rm \
+                        -v "$(pwd)":/app \
+                        -v /var/jenkins_home/npm-cache:/root/.npm \
+                        -w /app \
+                        node:16 npm install --no-fund --legacy-peer-deps
+                    '''
+                    
+                    // Test dependencies with cache mount
+                    sh '''
+                        cd tests
+                        docker run --rm \
+                        -v "$(pwd)":/app \
+                        -v /var/jenkins_home/npm-cache:/root/.npm \
+                        -w /app \
+                        node:16 npm install --no-fund --legacy-peer-deps
+                    '''
                 }
             }
         }
