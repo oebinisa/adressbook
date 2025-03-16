@@ -34,7 +34,13 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    echo "Skipping tests for now - will implement proper testing later"
+                    // Make sure vite is installed
+                    sh 'cd tests && npm install vite --no-fund && npm test'
+                }
+            }
+            post {
+                failure {
+                    echo 'Tests failed but continuing the pipeline'
                 }
             }
         }
@@ -42,7 +48,7 @@ pipeline {
         stage('Build Frontend (React + Vite)') {
             steps {
                 script {
-                    sh 'cd frontend && npm run build'
+                    sh 'cd frontend && && npm test && npm run build'
                 }
             }
         }
