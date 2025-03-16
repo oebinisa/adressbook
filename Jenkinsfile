@@ -23,7 +23,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                timeout(time: 15, unit: 'MINUTES') {
+                timeout(time: 30, unit: 'MINUTES') {
                     sh 'cd frontend && npm install --no-fund --no-audit --legacy-peer-deps || true'
                     sh 'cd backend && npm install --no-fund --no-audit --legacy-peer-deps || true'
                     sh 'cd tests && npm install --no-fund --no-audit --legacy-peer-deps || true'
