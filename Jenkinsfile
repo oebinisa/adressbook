@@ -44,6 +44,8 @@ pipeline {
                 script {
                     sh '''
                         cd frontend
+                        rm -rf node_modules
+                        npm cache clean --force
                         npm install vite --no-fund --no-audit
                         npm list vite
                         NODE_ENV=production npm run build || npm run build -- --debug
